@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -68,6 +68,38 @@ namespace Gradebook
 				addNewLineDicts(lines[lines.Count - 1]);
 				Console.WriteLine("Success.");
 			}
+		}
+		internal List<Line> get_by_student(string name)
+		{
+			if (!studSubMark.Keys.Contains(name))
+			{
+				Console.WriteLine("Error: there isn't that person");
+				return new List<Line>();
+			}
+			List<Line> res = new List<Line>();
+			foreach (var subs_marks in studSubMark[name])
+			{
+				foreach (var now in subs_marks)
+
+					res.Add(new Line() { student = name, subject = now.Key, mark = now.Value });
+			}
+			return res;
+		}
+		internal List<Line> get_by_sub(string sub)
+		{
+			if (!subStudMark.Keys.Contains(sub))
+			{
+				Console.WriteLine("Error: there isn't that person");
+				return new List<Line>();
+			}
+			List<Line> res = new List<Line>();
+			foreach (var stud_marks in subStudMark[sub])
+			{
+				foreach (var now in stud_marks)
+
+					res.Add(new Line() { student = now.Key, subject = sub, mark = now.Value });
+			}
+			return res;
 		}
 		internal void Delete(string name, string sub)
 		{
