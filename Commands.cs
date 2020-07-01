@@ -69,15 +69,4 @@ namespace commands
 		}
 
 	}
-	class Cycle_menu {
-		Dictionary<string, Command> CycleMenu = new Dictionary<string, Command>();
-		void action() { }
-		void go_back() { }
-		Cycle_menu(string action_name)
-		{
-			CycleMenu.Add(action_name, action);
-			CycleMenu.Add("Вернуться в предыдущее меню", go_back);
-		}
-	}
-	class In_action { }
 }
