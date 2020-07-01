@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +8,7 @@ using System.Configuration;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
+using System.Xml.Linq
 
 
 namespace Saver
@@ -31,6 +32,7 @@ namespace Saver
 		};
 		public static void save_gradebook()
 		{
+
 			Var_of_save[ConfigurationManager.AppSettings["KindOfStorage"]](); //я не знаю, в чем ошибка
 		}
 		public static Gradebook.Gradebook load_gradebook() { return Var_of_load[ConfigurationManager.AppSettings["KindOfStorage"]](); }
@@ -100,13 +102,35 @@ namespace Saver
 	{
 		static internal Gradebook.Gradebook load_gradebook(string path)
 		{
-			// Я ещё не понял, стараюсь дописать
+			Gradebook.Gradebook gradebook = new Gradebook.Gradebook();
+			XDocument xdoc = XDocument.Load(path);
+			foreach (XElement stud in xdoc.Element("students").Elements("student"))
+			{
+				XAttribute nameAttribute = stud.Attribute("name");
+				XElement subElement = stud.Element("subject");
+				XElement markElement = stud.Element("mark");
+
+				if (nameAttribute != null && subElement != null && markElement != null)
+				{
+					gradebook.Add(nameAttribute.ToString(), subElement.ToString(), nameAttribute.ToString());
+				}
+				
+			}
 			return new Gradebook.Gradebook();
 		}
 
 		static internal void save_gradebook(string path, Gradebook.Gradebook gradebook)
 		{
-			// Я ещё не понял, стараюсь дописать
+			XDocument xdoc = XDocument.Load(path);
+			XElement root = xdoc.Element("students");
+			foreach (var now in gradebook.GetLines())
+			{
+				root.Add(new XElement("student",
+						   new XAttribute("name", now.student),
+						   new XElement("subject", now.subject),
+						   new XElement("mark", now.mark)));
+			}
+			xdoc.Save("pnones1.xml");
 		}
 	}
 	static internal class Auto_Seri
