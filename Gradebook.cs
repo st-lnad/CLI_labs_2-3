@@ -6,20 +6,24 @@ using System.Threading.Tasks;
 
 namespace Gradebook
 {
-	class Gradebook
+	public class Gradebook
 	{
 		internal class Line
 		{
 			internal string student { get; set; }
 			internal string subject { get; set; }
 			internal string mark { get; set; }
+			internal string MyToString()
+			{
+				return "Student: " + student + " subject: " + subject + " mark: " + mark; 
+			}
 		}
 
 		private List<Line> lines = new List<Line>();
 		Dictionary<string, List<Dictionary<string, string>>> subStudMark = new Dictionary<string, List<Dictionary<string, string>>>(); 
 		Dictionary<string, List<Dictionary<string, string>>> studSubMark = new Dictionary<string, List<Dictionary<string, string>>>();
 
-
+		
 		internal void makeDicts() {
 			foreach (var now_line in lines)
 			{
