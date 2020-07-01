@@ -103,14 +103,36 @@ namespace Gradebook
 		}
 		internal void Delete(string name, string sub)
 		{
-			/*
-			for (int i = 0; i<lines.Count; i++)
+			if (studSubMark.Keys.Contains(name))
 			{
-				if (lines[i].student == name && lines[i].subject == sub)
-				{
-					lines.Remove(lines[i]);
+				bool ok = false;
+				foreach (var now in studSubMark[name].Select(x => x.Keys.Contains(sub)))
+				{ //Я долго пытался с этой лямбдой, но она не пригодилась, пихнул сюда
+					ok = ok || now;
 				}
-			}*/
+				if (ok)
+				{
+					for (int i = 0; i<lines.Count; i++)
+					{
+						if (lines[i].student == name && lines[i].subject == sub)
+						{
+							lines.Remove(lines[i]);
+							Console.WriteLine("Success. Element has removed");
+						}
+					}
+				}
+				else
+				{
+					Console.WriteLine("Error. Не сущетсвтует такого предмета у человека");
+					return;
+				}
+			}
+			else
+			{
+				Console.WriteLine("Error. Не сущетсвтует такого человека"); 
+				return;
+
+			}
 		}
 		
 		
